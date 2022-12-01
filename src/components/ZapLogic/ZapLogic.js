@@ -1,12 +1,23 @@
 import styled from "styled-components"
 import playBtn from "../../assets/img/seta_play.png"
 import flipBtn from "../../assets/img/seta_virar.png"
+import zapImg from "../../assets/img/icone_certo.png"
+import maybeImg from "../../assets/img/icone_quase.png"
+import wrongImg from "../../assets/img/icone_erro.png"
 
 const ZapLogic = ({
     isFlipped,
     setIsFlipped,
     isOpen,
     setIsOpen,
+    zapAnswer,
+    setZapAnswer,
+    maybeAnswer,
+    setMaybeAnswer,
+    wrongAnswer,
+    setWrongAnswer,
+    isAnswered,
+    setIsAnswered,
 }) => {
     const redBtn = "#FF3030"
     const yellowBtn = "#FF922E"
@@ -33,14 +44,49 @@ const ZapLogic = ({
         setIsOpen([...isOpen, e.id])
     }
 
+    function checkAnswer(e, arr) {
+        console.log(e.target.value)
+
+        if(e.target.value == 3) {
+            setZapAnswer([...zapAnswer, arr.id ])
+            console.log(zapAnswer)
+        }
+        else if(e.target.value == 2) {
+            setMaybeAnswer([...maybeAnswer, arr.id ])
+            console.log(maybeAnswer)
+        }
+        else if(e.target.value == 1) {
+            setWrongAnswer([...wrongAnswer, arr.id ])
+            console.log(wrongAnswer)
+        }
+        setIsOpen([])
+    }
+
     return (
         <>
             <ul>
                 {cards.map(a =>
                     <div key={a.id}>
-                        <ClosedCard opened={isOpen.includes(a.id)}>
-                            <p>Pergunta {a.id}</p>
-                            <img onClick={() => openCard(a)} src={playBtn} />
+                        <ClosedCard 
+                            opened={isOpen.includes(a.id)}
+                        >
+                            <p
+                                style={{color:
+                                    zapAnswer.includes(a.id) ? "#2FBE34" :
+                                    maybeAnswer.includes(a.id) ? "#FF922E" :
+                                    wrongAnswer.includes(a.id) ? "#FF3030" : "#333333"
+                                }}
+                            >
+                                Pergunta {a.id}
+                            </p>
+                            <img
+                                onClick={() => openCard(a)}
+                                src={
+                                    zapAnswer.includes(a.id) ? zapImg :
+                                    maybeAnswer.includes(a.id) ? maybeImg :
+                                    wrongAnswer.includes(a.id) ? wrongImg : playBtn
+                                }
+                            />
                         </ClosedCard>
 
 
@@ -51,9 +97,9 @@ const ZapLogic = ({
 
                             <ButtonContainer flipped={isFlipped.includes(a.id)}>
 
-                                <ChoiceButton value={1} color={redBtn}>Não Lembrei</ChoiceButton>
-                                <ChoiceButton value={2} color={yellowBtn}>Quase não demorei</ChoiceButton>
-                                <ChoiceButton value={3} color={greenBtn}>Zap!</ChoiceButton>
+                                <ChoiceButton value={1} color={redBtn} onClick={e => checkAnswer(e, a)}>Não Lembrei</ChoiceButton>
+                                <ChoiceButton value={2} color={yellowBtn} onClick={e => checkAnswer(e, a)}>Quase não demorei</ChoiceButton>
+                                <ChoiceButton value={3} color={greenBtn} onClick={e => checkAnswer(e, a)}>Zap!</ChoiceButton>
                                 
                             </ButtonContainer>
                         </OpenCard>
@@ -82,10 +128,8 @@ const ClosedCard = styled.li`
         font-weight: 700;
         font-size: 16px;
         line-height: 19px;
-        color: #333333;
     }
 `
-
 const OpenCard = styled.li`
     width: 300px;
     margin: 12px;
@@ -112,7 +156,6 @@ const OpenCard = styled.li`
         right: 10px;
     }    
 `
-
 const ButtonContainer = styled.div`
     display: ${props => props.flipped ? "flex" : "none"};
     width: 100%;

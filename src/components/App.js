@@ -10,7 +10,7 @@ export default function App() {
   const [isOpen, setIsOpen] = useState([])
   const [isAnswered, setIsAnswered] = useState([])
   const [zapAnswer, setZapAnswer] = useState([])
-  const [maybeAnswer, setMayberAnswer] = useState([])
+  const [maybeAnswer, setMaybeAnswer] = useState([])
   const [wrongAnswer, setWrongAnswer] = useState([])
 
 
@@ -24,6 +24,14 @@ export default function App() {
           setIsFlipped={setIsFlipped}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
+          isAnswered={isAnswered}
+          setIsAnswered={setIsAnswered}
+          zapAnswer={zapAnswer}
+          setZapAnswer={setZapAnswer}
+          maybeAnswer={maybeAnswer}
+          setMaybeAnswer={setMaybeAnswer}
+          wrongAnswer={wrongAnswer}
+          setWrongAnswer={setWrongAnswer}
         />
       </GameContainer>
     </>
