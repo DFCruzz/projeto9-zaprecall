@@ -1,6 +1,13 @@
 import styled from "styled-components"
+import playBtn from "../../assets/img/seta_play.png"
+import flipBtn from "../../assets/img/seta_virar.png"
 
-const ZapLogic = ({ props }) => {
+const ZapLogic = ({
+    isFlipped,
+    setIsFlipped,
+    isOpen,
+    setIsOpen,
+}) => {
     const redBtn = "#FF3030"
     const yellowBtn = "#FF922E"
     const greenBtn = "#2FBE34"
@@ -17,68 +24,89 @@ const ZapLogic = ({ props }) => {
     ]
 
 
+    function flipCard(e) {
+        console.log(e.id)
+        setIsFlipped([...isFlipped, e.id])
+    }
+
+    function openCard(e) {
+        setIsOpen([...isOpen, e.id])
+    }
 
     return (
         <>
-            <ClosedCard>
-                {cards.map(a => 
-                    <li>
-                        Pergunta {a.id}
-                    </li>                
-                )}
-            </ClosedCard>
-            <OpenCard>
+            <ul>
                 {cards.map(a =>
-                    <li>{a.question}
-                        <ButtonContainer>
-                            <ChoiceButton disabled={null} color={redBtn}>Não Lembrei</ChoiceButton>
-                            <ChoiceButton disabled={null} color={yellowBtn}>Quase não demorei</ChoiceButton>
-                            <ChoiceButton disabled={null} color={greenBtn}>Zap!</ChoiceButton>
-                        </ButtonContainer>
-                    </li>
+                    <div key={a.id}>
+                        <ClosedCard opened={isOpen.includes(a.id)}>
+                            <p>Pergunta {a.id}</p>
+                            <img onClick={() => openCard(a)} src={playBtn} />
+                        </ClosedCard>
+
+
+                        <OpenCard opened={isOpen.includes(a.id)} flipped={isFlipped.includes(a.id)}>
+
+                            {isFlipped.includes(a.id) ? a.answer : a.question}
+                            <img src={flipBtn} onClick={() => flipCard(a)} />
+
+                            <ButtonContainer flipped={isFlipped.includes(a.id)}>
+
+                                <ChoiceButton value={1} color={redBtn}>Não Lembrei</ChoiceButton>
+                                <ChoiceButton value={2} color={yellowBtn}>Quase não demorei</ChoiceButton>
+                                <ChoiceButton value={3} color={greenBtn}>Zap!</ChoiceButton>
+                                
+                            </ButtonContainer>
+                        </OpenCard>
+                    </div>
                 )}
-            </OpenCard>
+            </ul>
         </>
     )
 }
 
-const ClosedCard = styled.ul`
-    li {
-        width: 300px;
-        height: 35px;
-        background-color: #FFFFFF;
-        margin: 12px;
-        padding: 15px;
-        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+const ClosedCard = styled.li`
+    width: 300px;
+    height: 35px;
+    background-color: #FFFFFF;
+    margin: 12px;
+    padding: 15px;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    display: ${props => props.opened ? "none" : "flex"};
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+        font-family: 'Recursive';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        color: #333333;
     }
 `
 
-const OpenCard = styled.ul`
-    li {
-        width: 300px;
-        margin: 12px;
-        padding: 15px;
-        min-height: 100px;
-        background: #FFFFD5;
-        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-        border-radius: 5px;
-        font-family: 'Recursive';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 22px;
-        color: #333333;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+const OpenCard = styled.li`
+    width: 300px;
+    margin: 12px;
+    padding: 15px;
+    min-height: 100px;
+    background: #FFFFD5;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #333333;
+    position: relative;
+    display: ${props => props.opened ? "flex" : "none"};
+    flex-direction: column;
+    justify-content: space-between;
 
     img {
+        display: ${props => props.flipped ? "none" : "flex"};
         position: absolute;
         bottom: 10px;
         right: 10px;
@@ -86,8 +114,9 @@ const OpenCard = styled.ul`
 `
 
 const ButtonContainer = styled.div`
-    display: ${props => props.disabled ? "none" : "flex"};
+    display: ${props => props.flipped ? "flex" : "none"};
     width: 100%;
+    margin-top: 12px;
     justify-content: space-between;
 `
 const ChoiceButton = styled.button`
