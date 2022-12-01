@@ -59,6 +59,7 @@ const ZapLogic = ({
             setWrongAnswer([...wrongAnswer, arr.id ])
             console.log(wrongAnswer)
         }
+        setIsAnswered([...isAnswered, arr.id])
         setIsOpen([])
     }
 
@@ -80,7 +81,7 @@ const ZapLogic = ({
                                 Pergunta {a.id}
                             </p>
                             <img
-                                onClick={() => openCard(a)}
+                                onClick={isAnswered.includes(a.id) ? null : () => openCard(a)}
                                 src={
                                     zapAnswer.includes(a.id) ? zapImg :
                                     maybeAnswer.includes(a.id) ? maybeImg :

@@ -3,6 +3,7 @@ import GameContainer from "./GameContainer";
 import GlobalStyles from "./GlobalStyles";
 import Logo from "./Logo"
 import ZapLogic from "./ZapLogic/ZapLogic";
+import Footer from "./Footer";
 
 export default function App() {
 
@@ -32,6 +33,10 @@ export default function App() {
           setMaybeAnswer={setMaybeAnswer}
           wrongAnswer={wrongAnswer}
           setWrongAnswer={setWrongAnswer}
+        />
+        <Footer
+          setIsAnswered={setIsAnswered}
+          isAnswered={isAnswered}
         />
       </GameContainer>
     </>
