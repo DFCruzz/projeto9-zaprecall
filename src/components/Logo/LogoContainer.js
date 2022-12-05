@@ -1,18 +1,4 @@
-import styled from "styled-components"
-import logo from "../assets/img/logo.png"
-
-
-
-const Logo = () => {
-    return (
-        <LogoContainer>
-            <img src={logo} />
-            <h1>
-                ZapRecall
-            </h1>
-        </LogoContainer>
-    )
-}
+import styled from "styled-components";
 
 const LogoContainer = styled.section`
     display: flex;
@@ -34,5 +20,4 @@ const LogoContainer = styled.section`
     }
 `
 
-export default Logo
-
+export default LogoContainer
