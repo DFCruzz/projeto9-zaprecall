@@ -76,7 +76,7 @@ const ZapLogic = ({
                                 Pergunta {a.id}
                             </p>
                             <img
-                                data-test="play-btn no-icon zap-icon partial-icon"
+                                data-test="play-btn"
                                 onClick={isAnswered.includes(a.id) ? null : () => openCard(a)}
                                 src={
                                     zapAnswer.includes(a.id) ? zapImg :
